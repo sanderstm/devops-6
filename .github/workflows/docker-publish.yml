@@ -33,4 +33,5 @@ jobs:
           docker push ${{ secrets.DOCKER_USERNAME }}/flask-server:$VERSION
 
       - name: confirm publish
-        run: echo "Image published to Docker Hub: ${{ secrets.DOCKER_USERNAME }}/flask-server:latest"
+        run: | 
+          echo "Image published to Docker Hub: ${{ secrets.DOCKER_USERNAME }}/flask-server:latest"
