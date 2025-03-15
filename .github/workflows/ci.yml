@@ -17,11 +17,9 @@ jobs:
       - name: Checkout del código
         uses: actions/checkout@v3
  
-      - name: "Go to flask-server folder"
-        run: cd flask-server
-
       - name: Configurar Docker
         run: |
+          cd flask-server
           docker build -t flask-server .
           docker run -d -p 5000:5000 --name flask-test-ci flask-server
           sleep 5
