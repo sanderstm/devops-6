@@ -1,0 +1,4 @@
+Flask
+uvicorn
+dotenv
+asgiref
