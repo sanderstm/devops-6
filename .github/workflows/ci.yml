@@ -22,7 +22,7 @@ jobs:
           cd flask-server
           docker build -t flask-server .
           docker run -d -p 5000:5000 --name flask-test-ci flask-server
-          sleep 5
+          sleep 10
 
       - name: Testear los endpoints
         run: |
