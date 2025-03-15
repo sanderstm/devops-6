@@ -34,3 +34,32 @@ jobs:
 
       - name: Finalizar contenedor
         run: docker stop flask-test-ci && docker rm flask-test-ci
+
+  push_to_docker_hub:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v3
+
+      - name: login to docker hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: build docker image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/flask-server:latest -f flask-server/Dockerfile flask-server/
+
+      - name: tag image with version
+        run: |
+          VERSION=$(date +%Y%m%d%H%M%S)
+          docker tag ${{ secrets.DOCKER_USERNAME }}/flask-server:latest ${{ secrets.DOCKER_USERNAME }}/flask-server:$VERSION
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: publish image to docker hub
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/flask-server:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/flask-server:$VERSION
+
+      - name: confirm publish
+        run: | 
+          echo "Image published to Docker Hub: ${{ secrets.DOCKER_USERNAME }}/flask-server:latest"
