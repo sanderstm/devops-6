@@ -4,11 +4,9 @@ on:
   push:
     branches:
       - main
-      - dev
   pull_request:
     branches:
       - main
-
 jobs:
   test:
     name: Test
@@ -42,7 +40,7 @@ jobs:
     needs: test
     steps:
 
-      - name: 📥 Checkout repository
+      - name: checkout repository
         uses: actions/checkout@v3   
 
       - name: login to docker hub
