@@ -10,5 +10,9 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - .:/app
+      - ./flask-server/app:/app
+    networks:
+      - flask_network
 
+networks:
+  flask_network:
